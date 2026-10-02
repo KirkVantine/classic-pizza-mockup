@@ -303,7 +303,6 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
     <a class="brand" href="#top" aria-label="Classic Pizza home"><svg class="logo" viewBox="0 0 220 240" role="img" aria-label="Classic Pizza logo: a penguin in a red bow tie carrying a pizza box"><use href="#logoMark"/></svg></a>
     <nav class="nav" aria-label="Main">
       <a href="#menu">Menu</a>
-      <a href="#party" class="hide-sm">Party subs</a>
       <a href="#visit" class="hide-sm">Hours &amp; location</a>
       <a href="#visit" class="hide-sm">Jobs</a>
       <a href="tel:+17344261900" class="callbtn" aria-label="Call Classic Pizza">
@@ -423,7 +422,7 @@ dialog::backdrop{background:rgba(0,0,0,.55)}
       <a class="btn btn-red" href="https://ordering.bigholler.com/ClassicPizza/" style="margin-bottom:24px">Order online</a>
     </div>
 
-    <nav class="tabs" id="tabs" aria-label="Menu sections"><a href="#cheese" data-t="cheese">Build your own</a><a href="#specialty" data-t="specialty">Classic pizzas</a><a href="#party" data-t="party">Party subs</a><a href="#subs" data-t="subs">Oven-fresh subs</a><a href="#calzones" data-t="calzones">Calzones & wraps</a><a href="#wings" data-t="wings">Wings</a><a href="#breadsticks" data-t="breadsticks">Breadsticks & cheesebread</a><a href="#salads" data-t="salads">Salads</a><a href="#kids" data-t="kids">Kids & desserts</a><a href="#drinks" data-t="drinks">Drinks</a></nav>
+    <nav class="tabs" id="tabs" aria-label="Menu sections"><a href="#cheese" data-t="cheese">Build your own</a><a href="#specialty" data-t="specialty">Classic pizzas</a><a href="#subs" data-t="subs">Oven-fresh subs</a><a href="#calzones" data-t="calzones">Calzones & wraps</a><a href="#wings" data-t="wings">Wings</a><a href="#breadsticks" data-t="breadsticks">Breadsticks & cheesebread</a><a href="#salads" data-t="salads">Salads</a><a href="#kids" data-t="kids">Kids & desserts</a><a href="#drinks" data-t="drinks">Drinks</a></nav>
 
     <section class="box" id="cheese" aria-labelledby="cheeseTitle">
       <div class="box-head">
@@ -634,7 +633,12 @@ function spy(){
       if (!en.isIntersecting) return;
       links.forEach(l => l.removeAttribute('aria-current'));
       const a = links.find(l => l.dataset.t === en.target.id);
-      if (a){ a.setAttribute('aria-current','true'); a.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); }
+      if (a){
+        a.setAttribute('aria-current','true');
+        // Scroll only the tab bar sideways. scrollIntoView would also scroll the page and cancel a tab jump in progress.
+        const bar = a.parentElement;
+        bar.scrollTo({left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior:'smooth'});
+      }
     });
   }, {rootMargin:'-140px 0px -65% 0px'});
   targets.forEach(t => t && io.observe(t));

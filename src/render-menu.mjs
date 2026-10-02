@@ -97,7 +97,7 @@ function renderMenu() {
   return html;
 }
 
-const tabs = [['cheese','Build your own'], ['specialty','Classic pizzas'], ['party','Party subs'], ...MENU.slice(1).map(c => [c.id, c.title])];
+const tabs = [['cheese','Build your own'], ['specialty','Classic pizzas'], ...MENU.slice(1).map(c => [c.id, c.title])];
 const synced = new Date(PRICE_DATA.syncedAt).toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric', timeZone:'America/Detroit'});
 
 const out = {
