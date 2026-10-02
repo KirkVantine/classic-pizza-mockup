@@ -41,7 +41,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth; scroll-padding-top:128px}
+html{scroll-behavior:smooth; scroll-padding-top:164px}
 body{margin:0; background:var(--paper); color:var(--text); font-family:var(--body); font-size:17px; line-height:1.5; -webkit-font-smoothing:antialiased}
 img{max-width:100%; display:block}
 a{color:inherit}
@@ -635,8 +635,9 @@ function spy(){
   function highlight(a){
     links.forEach(l => l.removeAttribute('aria-current'));
     a.setAttribute('aria-current','true');
-    // Move only the tab bar sideways; scrollIntoView would also scroll the page.
-    bar.scrollTo({left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: smooth ? 'smooth' : 'auto'});
+    // Move only the tab bar, instantly. A smooth scroll here (or scrollIntoView)
+    // cancels a smooth page scroll already in progress.
+    bar.scrollLeft = a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2;
   }
 
   // Tabs scroll the page themselves, so nothing else can cancel the jump midway.
@@ -646,12 +647,16 @@ function spy(){
     e.preventDefault();
     jumping = true; clearTimeout(jumpTimer);
     highlight(a);
-    const offset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    // Land just below the sticky tab bar (its stuck position plus its height)
+    const offset = parseFloat(getComputedStyle(bar).top) + bar.offsetHeight + 16;
     window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: smooth ? 'smooth' : 'auto'});
     history.replaceState(null, '', '#' + a.dataset.t);
     jumpTimer = setTimeout(() => { jumping = false; }, 2500);
   });
-  window.addEventListener('scrollend', () => { clearTimeout(jumpTimer); jumping = false; });
+  document.addEventListener('scrollend', e => {
+    if (e.target !== document) return;  // ignore the tab bar's own scrolling
+    clearTimeout(jumpTimer); jumping = false;
+  });
 
   const io = new IntersectionObserver(entries => {
     if (jumping) return;
@@ -660,7 +665,7 @@ function spy(){
       const a = links.find(l => l.dataset.t === en.target.id);
       if (a) highlight(a);
     });
-  }, {rootMargin:'-140px 0px -65% 0px'});
+  }, {rootMargin:'-170px 0px -60% 0px'});
   targets.forEach(t => t && io.observe(t));
 }
 

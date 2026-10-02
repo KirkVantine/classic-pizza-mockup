@@ -2,3 +2,5 @@
 src/assets/
 # Local single-file copy of index.html for emailing
 classic-pizza-mockup.html
+# Local preview server config
+.claude/
