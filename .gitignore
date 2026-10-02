@@ -1,0 +1,4 @@
+# Photos downloaded by the build (embedded into index.html)
+src/assets/
+# Local single-file copy of index.html for emailing
+classic-pizza-mockup.html

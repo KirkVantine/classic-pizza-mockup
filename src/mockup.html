@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Classic Pizza Redesign</title>
+<meta name="description" content="Concept redesign for Classic Pizza, Dexter, Michigan: mobile-first online ordering and menu.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red:#E31B23;      /* logo circle */
+  --tie:#A50F17;      /* bow tie shadow, pressed states */
+  --ink:#000;         /* penguin */
+  --snow:#fff;        /* belly */
+  --beak:#FFC72C;     /* beak + feet */
+  --butter:#FFF3C9;   /* sunburst ground */
+  --paper:#fff;
+  --text:#000;
+  --muted:#4a4a4a;
+  --line:#e7e2d4;
+  --surface:#fff;
+  --raise:#FFFAEA;
+  --radius-pill:999px;
+  --radius-box:14px;
+  --display:"Alfa Slab One", Rockwell, "Roboto Slab", Georgia, serif;
+  --body:"Bricolage Grotesque", system-ui, -apple-system, "Segoe UI", sans-serif;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#000; --text:#fff; --muted:#bdbdbd; --line:#2c2c2c; --surface:#141414; --raise:#1c1a12;
+    --butter:#2a2208; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#000; --text:#fff; --muted:#bdbdbd; --line:#2c2c2c; --surface:#141414; --raise:#1c1a12;
+  --butter:#2a2208; color-scheme: dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:128px}
+body{margin:0; background:var(--paper); color:var(--text); font-family:var(--body); font-size:17px; line-height:1.5; -webkit-font-smoothing:antialiased}
+img{max-width:100%; display:block}
+a{color:inherit}
+button{font:inherit; color:inherit; cursor:pointer}
+:focus-visible{outline:3px solid var(--beak); outline-offset:3px; border-radius:6px}
+.wrap{max-width:1180px; margin:0 auto; padding:0 16px}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* concept ribbon */
+.ribbon{background:var(--ink); color:#fff; font-size:14px}
+.ribbon .wrap{display:flex; gap:12px; align-items:center; justify-content:center; padding-top:8px; padding-bottom:8px; flex-wrap:wrap; text-align:center}
+.ribbon button{background:var(--beak); color:#000; border:0; border-radius:var(--radius-pill); padding:4px 12px; font-weight:700; font-size:13px}
+
+/* header */
+.top{position:sticky; top:0; z-index:40; background:var(--paper); border-bottom:4px solid var(--red)}
+.top .wrap{display:flex; align-items:center; gap:20px; height:76px}
+.brand{display:flex; align-items:center; gap:10px; text-decoration:none}
+.brand .logo{height:62px; width:57px; display:block}
+.nav{display:flex; gap:22px; margin-left:auto; align-items:center}
+.nav a{text-decoration:none; font-weight:700; font-size:16px}
+.nav a:hover{color:var(--red)}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; border:0; border-radius:var(--radius-pill); padding:12px 22px; font-weight:800; font-size:17px; text-decoration:none; line-height:1.1; transition:transform .12s ease, background .12s ease}
+.btn:active{transform:translateY(1px)}
+.btn-red{background:var(--red); color:#fff; box-shadow:0 3px 0 var(--tie)}
+.btn-red:hover{background:#cc141b}
+.btn-ghost{background:transparent; color:var(--text); border:2.5px solid currentColor}
+.btn-ghost:hover{background:var(--text); color:var(--paper)}
+.callbtn{display:none}
+@media (max-width:860px){
+  .nav a.hide-sm{display:none}
+  .brand .logo{height:52px; width:48px}
+  .top .wrap{height:66px; gap:12px}
+  .nav{gap:10px}
+  .nav .btn{padding:10px 16px; font-size:15px}
+  .callbtn{display:inline-flex; width:44px; height:44px; border-radius:50%; border:2.5px solid var(--text); align-items:center; justify-content:center}
+}
+
+/* hero */
+.hero{position:relative; overflow:hidden; background:var(--butter); isolation:isolate}
+.rays{position:absolute; inset:-40%; z-index:-1; background:repeating-conic-gradient(from 0deg at 72% 50%, rgba(255,199,44,.55) 0 7.5deg, transparent 7.5deg 15deg); opacity:0; animation:raysIn 1.2s .2s ease-out forwards}
+@keyframes raysIn{to{opacity:1}}
+.hero .wrap{display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:24px; padding-top:40px; padding-bottom:48px; min-height:560px}
+.hero h1{font-family:var(--display); font-weight:400; font-size:clamp(44px, 6.4vw, 84px); line-height:.98; margin:0 0 18px; letter-spacing:-.01em; color:var(--ink)}
+:root[data-theme="dark"] .hero h1{color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .hero h1{color:#fff}}
+.hero p.lede{font-size:20px; max-width:30ch; margin:0 0 26px; color:var(--text)}
+.hero .ctas{display:flex; gap:12px; flex-wrap:wrap}
+.hero .btn{font-size:19px; padding:15px 26px}
+.facts{display:flex; flex-wrap:wrap; gap:8px 22px; margin-top:28px; font-size:15px; font-weight:600}
+.facts span{display:inline-flex; gap:8px; align-items:center}
+.dot{width:10px; height:10px; border-radius:50%; background:#1f9d45; box-shadow:0 0 0 3px rgba(31,157,69,.2)}
+.dot.closed{background:var(--red); box-shadow:0 0 0 3px rgba(227,27,35,.2)}
+
+/* penguin stage */
+.stage{position:relative; width:min(100%, 500px); aspect-ratio:1/1.04; margin-left:auto}
+.stage svg{width:100%; height:100%; overflow:visible}
+.disc{transform-origin:250px 270px; transform:scale(.2); opacity:0; animation:discIn .6s .1s cubic-bezier(.3,1.5,.5,1) forwards}
+@keyframes discIn{to{transform:scale(1); opacity:1}}
+.arch{opacity:0; animation:fadeIn .5s 2.7s forwards}
+@keyframes fadeIn{to{opacity:1}}
+.walker{animation:walkIn 2.1s .6s cubic-bezier(.25,.6,.35,1) both}
+@keyframes walkIn{from{transform:translateX(-430px)} to{transform:translateX(0)}}
+.waddle{transform-origin:250px 470px; animation:waddle .35s .6s 6 ease-in-out both}
+@keyframes waddle{0%,100%{transform:rotate(-7deg)} 50%{transform:rotate(7deg)}}
+.flipper{transform-origin:196px 268px; animation:present .7s 2.75s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes present{from{transform:rotate(38deg)} to{transform:rotate(0)}}
+.lid{transform-origin:72px 236px; transform-box:view-box; animation:lid .5s 3.3s ease-out both}
+@keyframes lid{from{transform:rotate(0)} to{transform:rotate(-34deg)}}
+.steam path{stroke-dasharray:60; stroke-dashoffset:60; opacity:0; animation:steam 2.8s 3.7s ease-out infinite}
+.steam path:nth-child(2){animation-delay:4.2s}
+.steam path:nth-child(3){animation-delay:4.7s}
+@keyframes steam{0%{stroke-dashoffset:60; opacity:0} 25%{opacity:.9} 100%{stroke-dashoffset:-60; opacity:0}}
+.eye{transform-origin:286px 160px; transform-box:view-box; animation:blink 4.6s 3.4s infinite}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)} 97%{transform:scaleY(.1)}}
+.tie{transform-origin:258px 250px; transform-box:view-box; animation:tie .5s 2.75s ease-in-out 2}
+@keyframes tie{0%,100%{transform:rotate(0)} 30%{transform:rotate(-12deg)} 70%{transform:rotate(10deg)}}
+.stage button{position:absolute; inset:18% 18% 8% 22%; border:0; background:transparent; border-radius:40%}
+.hop{animation:hop .55s cubic-bezier(.3,1.6,.5,1)}
+@keyframes hop{0%{transform:translateY(0)} 40%{transform:translateY(-34px) rotate(-4deg)} 100%{transform:translateY(0)}}
+
+@media (max-width:860px){
+  .hero .wrap{grid-template-columns:1fr; padding-top:12px; min-height:0; gap:0}
+  .stage{order:-1; width:min(82vw, 360px); margin:0 auto 18px}
+  .hero p.lede{font-size:18px}
+  .rays{background:repeating-conic-gradient(from 0deg at 50% 22%, rgba(255,199,44,.55) 0 7.5deg, transparent 7.5deg 15deg)}
+}
+
+/* order band */
+.orderband{background:var(--ink); color:#fff}
+.orderband .wrap{display:flex; gap:14px 24px; align-items:center; justify-content:space-between; flex-wrap:wrap; padding-top:18px; padding-bottom:18px}
+.orderband p{margin:0; font-size:17px}
+.orderband p b{color:var(--beak)}
+.ob-actions{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+.btn-yellow{background:var(--beak); color:#000; box-shadow:0 3px 0 #b88a00}
+.btn-yellow:hover{background:#ffd451}
+.ob-app{color:#fff; font-weight:700; font-size:15px; text-decoration:none; padding:10px 14px; border:1.5px solid #444; border-radius:12px}
+.ob-app:hover{border-color:var(--beak)}
+
+/* order area */
+.order{padding:56px 0 80px}
+.order .wrap{max-width:980px}
+.sec-title{font-family:var(--display); font-weight:400; font-size:clamp(34px,4.4vw,52px); line-height:1; margin:0 0 8px}
+.sec-sub{color:var(--muted); margin:0 0 24px; max-width:60ch}
+
+.tabs{position:sticky; top:80px; z-index:20; background:var(--paper); display:flex; gap:8px; overflow-x:auto; padding:12px 0; margin-bottom:8px; scrollbar-width:none; border-bottom:1px solid var(--line)}
+.tabs a{flex:none; text-decoration:none; font-weight:700; font-size:15px; padding:8px 16px; border-radius:var(--radius-pill); border:2px solid var(--line)}
+.tabs a[aria-current="true"]{background:var(--text); color:var(--paper); border-color:var(--text)}
+@media (max-width:860px){.tabs{top:70px}}
+
+/* build your own: the pizza box */
+.box{border:3px solid var(--ink); border-radius:var(--radius-box); background:var(--raise); padding:0; margin:28px 0 44px; overflow:hidden}
+:root[data-theme="dark"] .box{border-color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .box{border-color:#fff}}
+.box-head{background:var(--red); color:#fff; padding:18px 22px; display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap}
+.box-head h3{font-family:var(--display); font-weight:400; font-size:30px; margin:0; line-height:1}
+.box-head p{margin:0; font-size:15px}
+.box-body{padding:22px; display:grid; gap:26px}
+.sizes{display:grid; grid-template-columns:repeat(auto-fill, minmax(132px,1fr)); gap:10px}
+.size{background:var(--surface); border:2px solid var(--line); border-radius:12px; padding:12px 14px; display:flex; flex-direction:column; gap:2px}
+.size .sz{font-family:var(--display); font-size:30px; line-height:1}
+.size .kind{font-size:14px; color:var(--muted); font-weight:600; line-height:1.3}
+.size b{font-size:19px; font-weight:800; margin-top:auto; padding-top:6px}
+.size.phone{border-style:dashed}
+.size.phone a{font-weight:800; color:var(--red); margin-top:auto; padding-top:6px; text-decoration:none}
+.specs{display:grid; grid-template-columns:2fr 1fr; gap:22px}
+.specs h4{margin:0 0 8px; font-size:16px; font-weight:800}
+.tags{display:flex; flex-wrap:wrap; gap:6px; margin:0; padding:0; list-style:none}
+.tags li{font-size:14px; font-weight:600; padding:4px 10px; border-radius:var(--radius-pill); background:var(--surface); border:1.5px solid var(--line)}
+@media (max-width:700px){.specs{grid-template-columns:1fr}}
+.box-foot{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; padding:18px 22px; border-top:2px dashed var(--line)}
+.box-foot p{margin:0; font-size:15px; color:var(--muted); max-width:46ch}
+
+/* menu lists */
+.menu-intro{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap}
+.cat{margin-top:44px}
+.cat-head{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; border-bottom:3px solid var(--text); padding-bottom:8px; margin-bottom:6px}
+.cat-head h3{font-family:var(--display); font-weight:400; font-size:30px; margin:0; line-height:1.05}
+.cat-head p{margin:0; color:var(--muted); font-size:15px; max-width:52ch}
+.item{display:grid; grid-template-columns:1fr auto; gap:8px 20px; padding:14px 0; border-bottom:1px solid var(--line); align-items:center}
+.item h4{margin:0; font-size:18px; font-weight:800; line-height:1.25}
+.item h4 .new{display:inline-block; background:var(--beak); color:#000; font-size:12px; font-weight:800; border-radius:6px; padding:1px 7px; margin-left:8px; vertical-align:2px}
+.item p{margin:2px 0 0; color:var(--muted); font-size:15px; max-width:62ch}
+.prices{display:flex; gap:6px; justify-content:flex-end}
+.pc{display:flex; flex-direction:column; align-items:center; min-width:58px; padding:4px 6px; border-radius:10px; background:var(--raise)}
+.pc small{font-size:12px; color:var(--muted); font-weight:700; line-height:1.3}
+.pc b{font-size:16px; font-weight:800}
+.pc.solo{background:none; padding:0; min-width:0}
+.pc.solo b{font-size:18px}
+.call{font-weight:800; font-size:14px; color:var(--red); text-decoration:none; border:2px solid var(--red); border-radius:var(--radius-pill); padding:6px 12px; white-space:nowrap}
+.byphone{margin:12px 0 0; font-size:15px; color:var(--muted)}
+.byphone a{color:var(--red); font-weight:700}
+@media (max-width:700px){
+  .item{grid-template-columns:1fr}
+  .prices{justify-content:flex-start; flex-wrap:wrap}
+}
+
+.photo{margin:44px 0 0; border-radius:var(--radius-box); overflow:hidden; position:relative}
+.photo img{width:100%; height:240px; object-fit:cover}
+.photo figcaption{position:absolute; left:16px; bottom:16px; background:var(--paper); color:var(--text); font-weight:700; padding:8px 14px; border-radius:var(--radius-pill); font-size:15px}
+
+/* party subs callout */
+.party{margin-top:44px; display:grid; grid-template-columns:auto 1fr; gap:20px; align-items:center; padding:22px; border-radius:var(--radius-box); background:var(--ink); color:#fff}
+.party .feet{font-family:var(--display); font-size:64px; line-height:.85; color:var(--beak)}
+.party .feet small{display:block; font-family:var(--body); font-size:15px; font-weight:700; color:#fff; margin-top:6px}
+.party h3{margin:0 0 4px; font-family:var(--display); font-weight:400; font-size:26px}
+.party p{margin:0 0 14px; color:#d6d6d6; font-size:15px; max-width:56ch}
+@media (max-width:560px){.party{grid-template-columns:1fr}}
+
+/* mobile order bar */
+.mbar{display:none}
+@media (max-width:980px){
+  .mbar{display:flex; position:fixed; left:12px; right:12px; bottom:12px; z-index:50; justify-content:space-between; align-items:center; background:var(--red); color:#fff; text-decoration:none; border-radius:var(--radius-pill); padding:14px 22px; font-weight:800; font-size:17px; box-shadow:0 4px 0 var(--tie), 0 10px 30px rgba(0,0,0,.25)}
+  .mbar span:last-child{font-weight:600; font-size:14px; opacity:.9}
+  body{padding-bottom:84px}
+}
+
+/* review + visit */
+.review{background:var(--butter); padding:64px 0}
+.review blockquote{margin:0 auto; max-width:760px; font-size:clamp(22px,2.6vw,30px); line-height:1.35; font-weight:500}
+.review blockquote p{margin:0 0 14px}
+.review cite{font-style:normal; font-weight:800; font-size:16px}
+.visit{padding:64px 0}
+.visit-grid{display:grid; grid-template-columns:1.1fr 1fr 1fr; gap:36px}
+.visit h3{font-family:var(--display); font-weight:400; font-size:24px; margin:0 0 10px}
+.visit p{margin:0 0 8px}
+.hours{width:100%; border-collapse:collapse; font-size:16px}
+.hours td{padding:6px 0; border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right; font-weight:700}
+.hours tr.today td{color:var(--red); font-weight:800}
+.apps{display:flex; gap:10px; flex-wrap:wrap; margin-top:12px}
+.apps a{display:inline-flex; align-items:center; gap:8px; background:var(--ink); color:#fff; text-decoration:none; padding:10px 16px; border-radius:12px; font-weight:700; font-size:15px; border:1.5px solid #444}
+@media (max-width:860px){.visit-grid{grid-template-columns:1fr}}
+
+footer{background:var(--ink); color:#fff; padding:36px 0}
+footer .wrap{display:flex; gap:20px; align-items:center; justify-content:space-between; flex-wrap:wrap}
+footer .logo{height:70px; width:64px; display:block}
+footer nav{display:flex; gap:18px; flex-wrap:wrap}
+footer a{text-decoration:none; font-weight:600}
+footer a:hover{color:var(--beak)}
+footer small{color:#aaa; display:block; margin-top:6px}
+
+/* dialogs + toast */
+dialog{border:3px solid var(--ink); border-radius:18px; padding:0; max-width:560px; width:calc(100% - 32px); background:var(--surface); color:var(--text)}
+dialog::backdrop{background:rgba(0,0,0,.55)}
+.dlg-head{background:var(--red); color:#fff; padding:20px 24px}
+.dlg-head h2{margin:0; font-family:var(--display); font-weight:400; font-size:28px; line-height:1.1}
+.dlg-body{padding:20px 24px 24px}
+.dlg-body ul{padding-left:20px; margin:8px 0 16px}
+.dlg-body li{margin-bottom:6px}
+.price-pair{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:6px 0 18px}
+.price-pair div{border:2px solid var(--text); border-radius:14px; padding:14px}
+.price-pair b{display:block; font-family:var(--display); font-weight:400; font-size:40px; line-height:1}
+.price-pair span{font-size:14px; color:var(--muted)}
+.toast{position:fixed; left:50%; bottom:100px; transform:translate(-50%, 20px); opacity:0; background:var(--ink); color:#fff; padding:12px 20px; border-radius:var(--radius-pill); font-weight:700; z-index:80; transition:.25s; pointer-events:none; border:1.5px solid #444; white-space:nowrap}
+.toast.show{opacity:1; transform:translate(-50%, 0)}
+@media (min-width:981px){.toast{bottom:32px}}
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation-duration:.001s !important; animation-delay:0s !important; animation-iteration-count:1 !important; transition:none !important}
+  .steam path{opacity:.6; stroke-dashoffset:0}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="logoMark" viewBox="0 0 220 240">
+    <rect width="220" height="240" rx="18" fill="#fff"/>
+    <path id="logoArch" d="M 30 120 A 80 80 0 0 1 190 120" fill="none"/>
+    <circle cx="110" cy="128" r="78" fill="#E31B23" stroke="#000" stroke-width="5"/>
+    <text font-family="Alfa Slab One, Georgia, serif" font-size="34" fill="#000" text-anchor="middle" letter-spacing="2"><textPath href="#logoArch" startOffset="50%">CLASSIC</textPath></text>
+    <ellipse cx="100" cy="196" rx="12" ry="5" fill="#FFC72C" stroke="#000" stroke-width="2.5"/>
+    <ellipse cx="126" cy="196" rx="12" ry="5" fill="#FFC72C" stroke="#000" stroke-width="2.5"/>
+    <path d="M113 70 C 141 70 155 98 155 136 C 155 176 146 196 113 196 C 80 196 71 176 71 136 C 71 98 86 70 113 70 Z" fill="#000"/>
+    <path d="M118 110 C 139 112 146 140 144 166 C 142 186 132 192 117 192 C 102 192 94 184 93 166 C 92 140 100 110 118 110 Z" fill="#fff"/>
+    <path d="M121 82 C 136 81 143 92 142 105 C 141 115 133 118 125 117 C 115 116 111 107 112 97 C 113 88 116 83 121 82 Z" fill="#fff"/>
+    <ellipse cx="127" cy="96" rx="3.2" ry="5" fill="#000"/>
+    <path d="M127 106 C 135 102 147 104 154 110 C 147 115 135 116 128 112 Z" fill="#FFC72C" stroke="#000" stroke-width="2.2" stroke-linejoin="round"/>
+    <path d="M117 132 L 100 122 L 101 142 Z M117 132 L 134 122 L 133 142 Z" fill="#E31B23" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+    <rect x="112" y="127" width="10" height="10" rx="2.5" fill="#A50F17" stroke="#000" stroke-width="2.5"/>
+    <path d="M40 128 L 92 118 L 106 130 L 54 141 Z" fill="#fff" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M54 141 L 54 150 L 106 139 L 106 130 Z" fill="#eee" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M40 128 L 40 137 L 54 150 L 54 141 Z" fill="#ddd" stroke="#000" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M86 122 C 78 132 74 140 72 150 C 84 148 94 142 100 134 Z" fill="#000"/>
+    <text x="110" y="230" font-family="Alfa Slab One, Georgia, serif" font-size="26" fill="#000" text-anchor="middle" letter-spacing="3">PIZZA</text>
+  </symbol>
+</svg>
+
+<div class="ribbon" role="note">
+  <div class="wrap">
+    <span>Concept mockup for Classic Pizza, prepared by Kirk Vantine</span>
+    <button type="button" id="aboutBtn">About this proposal</button>
+  </div>
+</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Classic Pizza home"><svg class="logo" viewBox="0 0 220 240" role="img" aria-label="Classic Pizza logo: a penguin in a red bow tie carrying a pizza box"><use href="#logoMark"/></svg></a>
+    <nav class="nav" aria-label="Main">
+      <a href="#menu">Menu</a>
+      <a href="#party" class="hide-sm">Party subs</a>
+      <a href="#visit" class="hide-sm">Hours &amp; location</a>
+      <a href="#visit" class="hide-sm">Jobs</a>
+      <a href="tel:+17344261900" class="callbtn" aria-label="Call Classic Pizza">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>
+      </a>
+      <a href="https://ordering.bigholler.com/ClassicPizza/" class="btn btn-red">Order online</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero" aria-labelledby="heroTitle">
+  <div class="rays" aria-hidden="true"></div>
+  <div class="wrap">
+    <div>
+      <h1 id="heroTitle">Hot pizza, carried with care.</h1>
+      <p class="lede">Hand-tossed, Chicago, or New York style, plus subs, wings, and cheesebread from Huron Street in Dexter. Order online for pickup or delivery.</p>
+      <div class="ctas">
+        <a class="btn btn-red" href="https://ordering.bigholler.com/ClassicPizza/">Order online</a>
+        <a class="btn btn-ghost" href="#menu">See the menu</a>
+      </div>
+      <div class="facts">
+        <span><i class="dot" id="openDot"></i><span id="openText">Open today 11am to 9pm</span></span>
+        <span>8015 Huron St, Dexter</span>
+        <a href="tel:+17344261900">(734) 426-1900</a>
+      </div>
+    </div>
+
+    <div class="stage">
+      <svg viewBox="0 0 500 520" role="img" aria-label="The Classic Pizza penguin waddles in wearing a red bow tie and opens a hot pizza box">
+        <defs>
+          <path id="archPath" d="M 70 250 A 180 180 0 0 1 430 250"/>
+        </defs>
+        <g class="disc">
+          <circle cx="250" cy="270" r="200" fill="#E31B23"/>
+          <circle cx="250" cy="270" r="200" fill="none" stroke="#000" stroke-width="8"/>
+        </g>
+        <g class="arch">
+          <text font-family="Alfa Slab One, Georgia, serif" font-size="58" fill="currentColor" letter-spacing="6" text-anchor="middle" style="color:var(--text)"><textPath href="#archPath" startOffset="50%" dy="-26">CLASSIC</textPath></text>
+          <text x="250" y="512" font-family="Alfa Slab One, Georgia, serif" font-size="46" text-anchor="middle" letter-spacing="8" style="fill:var(--text)">PIZZA</text>
+        </g>
+
+        <g class="walker"><g id="hopper">
+          <g class="waddle" id="peng">
+            <!-- feet -->
+            <ellipse cx="226" cy="462" rx="28" ry="11" fill="#FFC72C" stroke="#000" stroke-width="4"/>
+            <ellipse cx="286" cy="462" rx="28" ry="11" fill="#FFC72C" stroke="#000" stroke-width="4"/>
+            <!-- body -->
+            <path d="M250 96 C 318 96 352 160 352 250 C 352 360 330 452 252 456 C 172 452 150 360 150 250 C 150 160 186 96 250 96 Z" fill="#000"/>
+            <!-- belly -->
+            <path d="M262 196 C 312 200 330 270 326 340 C 322 410 296 444 258 444 C 222 444 204 410 204 340 C 204 270 220 196 262 196 Z" fill="#fff"/>
+            <!-- face patch -->
+            <path d="M268 126 C 304 124 322 150 320 182 C 318 206 300 216 280 214 C 256 212 246 190 248 166 C 250 142 256 128 268 126 Z" fill="#fff"/>
+            <!-- eye -->
+            <g class="eye"><ellipse cx="286" cy="160" rx="7" ry="11" fill="#000"/><circle cx="289" cy="155" r="2.6" fill="#fff"/></g>
+            <!-- beak -->
+            <path d="M286 186 C 304 178 330 182 346 196 C 330 206 304 210 288 202 Z" fill="#FFC72C" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+            <path d="M292 198 C 310 200 326 198 340 196" stroke="#000" stroke-width="2.5" fill="none"/>
+            <!-- bow tie -->
+            <g class="tie">
+              <path d="M258 250 L 220 228 L 222 274 Z" fill="#E31B23" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+              <path d="M258 250 L 298 228 L 296 274 Z" fill="#E31B23" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+              <rect x="248" y="240" width="20" height="20" rx="5" fill="#A50F17" stroke="#000" stroke-width="4"/>
+            </g>
+            <!-- right flipper resting -->
+            <path d="M340 230 C 368 270 372 320 356 352 C 348 330 340 300 330 270 Z" fill="#000"/>
+            <!-- left flipper holding the box -->
+            <g class="flipper">
+              <!-- box base -->
+              <g>
+                <path d="M30 262 L 150 238 L 186 266 L 66 292 Z" fill="#fff" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M66 292 L 66 312 L 186 286 L 186 266 Z" fill="#f1f1f1" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+                <path d="M30 262 L 30 282 L 66 312 L 66 292 Z" fill="#e3e3e3" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+                <!-- the pizza peeking out -->
+                <path d="M50 262 L 146 244 L 168 264 L 72 284 Z" fill="#FFC72C"/>
+                <circle cx="96" cy="266" r="6" fill="#E31B23"/><circle cx="126" cy="258" r="6" fill="#E31B23"/><circle cx="140" cy="270" r="5" fill="#E31B23"/><circle cx="80" cy="276" r="5" fill="#E31B23"/>
+                <!-- lid hinged at the back edge -->
+                <g class="lid">
+                  <path d="M30 262 L 150 238 L 186 266 L 66 292 Z" fill="#fff" stroke="#000" stroke-width="4" stroke-linejoin="round"/>
+                  <text x="108" y="270" font-family="Alfa Slab One, Georgia, serif" font-size="13" fill="#000" text-anchor="middle" transform="rotate(-11 108 266)">CLASSIC</text>
+                  <text x="108" y="284" font-family="Alfa Slab One, Georgia, serif" font-size="11" fill="#E31B23" text-anchor="middle" transform="rotate(-11 108 280)">PIZZA</text>
+                </g>
+              </g>
+              <path d="M196 236 C 170 250 150 268 140 290 C 160 292 190 284 214 270 Z" fill="#000"/>
+              <g class="steam" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round">
+                <path d="M82 248 C 70 226 96 214 84 190"/>
+                <path d="M112 240 C 100 218 126 206 114 182"/>
+                <path d="M142 234 C 130 212 156 200 144 176"/>
+              </g>
+            </g>
+          </g>
+        </g></g>
+      </svg>
+      <button type="button" id="pengBtn" aria-label="Say hi to the penguin"></button>
+    </div>
+  </div>
+</section>
+
+<section class="orderband" aria-label="Order online">
+  <div class="wrap">
+    <p><b>Order online</b> for pickup or delivery, on the web or in the Classic Pizza app.</p>
+    <div class="ob-actions">
+      <a class="btn btn-yellow" href="https://ordering.bigholler.com/ClassicPizza/">Start an order</a>
+      <a class="ob-app" href="#">App Store</a>
+      <a class="ob-app" href="#">Google Play</a>
+    </div>
+  </div>
+</section>
+
+<section class="order" id="menu" aria-labelledby="menuTitle">
+  <div class="wrap">
+    <div class="menu-intro">
+      <div>
+        <h2 class="sec-title" id="menuTitle">Menu</h2>
+        <p class="sec-sub" id="syncNote">{{SYNC_NOTE}}</p>
+      </div>
+      <a class="btn btn-red" href="https://ordering.bigholler.com/ClassicPizza/" style="margin-bottom:24px">Order online</a>
+    </div>
+
+    <nav class="tabs" id="tabs" aria-label="Menu sections">{{TABS}}</nav>
+
+    <section class="box" id="cheese" aria-labelledby="cheeseTitle">
+      <div class="box-head">
+        <h3 id="cheeseTitle">Build your own pizza</h3>
+        <p>Pick a size and style, then add toppings when you order</p>
+      </div>
+      <div class="box-body">
+        <div class="sizes" id="sizes">{{SIZES}}</div>
+        <div class="specs">
+          <div><h4>Toppings</h4><ul class="tags" id="topList">{{TOPPINGS}}</ul></div>
+          <div><h4>Flavored crusts</h4><ul class="tags" id="crustList">{{CRUSTS}}</ul></div>
+        </div>
+      </div>
+      <div class="box-foot">
+        <p>Topping prices depend on size and are added as you build your pizza in online ordering. Extra sauce is always free.</p>
+        <a class="btn btn-red" href="https://ordering.bigholler.com/ClassicPizza/">Build it online</a>
+      </div>
+    </section>
+
+    <div id="menuLists">
+{{MENU_LISTS}}
+</div>
+  </div>
+</section>
+
+<section class="review" aria-label="What customers say">
+  <div class="wrap">
+    <blockquote>
+      <p>"Went with the Chicago style and will be back to try other menu items. The young gentleman who took my order helped me with my dietary issues to make sure I could eat what I ordered."</p>
+      <cite>Bruce P., Google review</cite>
+    </blockquote>
+  </div>
+</section>
+
+<section class="visit" id="visit" aria-labelledby="visitTitle">
+  <div class="wrap">
+    <h2 class="sec-title" id="visitTitle">Come see us on Huron Street</h2>
+    <p class="sec-sub">Takeout, delivery, and party orders from downtown Dexter.</p>
+    <div class="visit-grid">
+      <div>
+        <h3>Find us</h3>
+        <p>8015 Huron St<br>Dexter, MI 48130</p>
+        <p><a href="tel:+17344261900"><b>(734) 426-1900</b></a></p>
+        <p><a href="https://maps.google.com/?q=8015+Huron+St+Dexter+MI+48130" target="_blank" rel="noopener">Get directions</a></p>
+        <div class="apps">
+          <a href="#">App Store</a>
+          <a href="#">Google Play</a>
+        </div>
+      </div>
+      <div>
+        <h3>Hours</h3>
+        <table class="hours" id="hoursTable"><tbody></tbody></table>
+      </div>
+      <div>
+        <h3>Join the crew</h3>
+        <p>We're hiring for counter, kitchen, and delivery. Flexible schedules for students.</p>
+        <p><a href="#" class="btn btn-ghost" style="margin-top:6px">Apply to work here</a></p>
+        <h3 style="margin-top:28px">We accept</h3>
+        <p>Visa, Mastercard, Discover, Amex, and personal checks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <svg class="logo" viewBox="0 0 220 240" role="img" aria-label="Classic Pizza"><use href="#logoMark"/></svg>
+    </div>
+    <nav aria-label="Footer">
+      <a href="#menu">Menu</a>
+      <a href="#cheese">Build your own</a>
+      <a href="#party">Party subs</a>
+      <a href="#visit">Hours &amp; location</a>
+      <a href="#visit">Jobs</a>
+      <a href="https://www.facebook.com/Classic-Pizza-99542516134" target="_blank" rel="noopener">Facebook</a>
+    </nav>
+    <div>
+      <b>Classic Pizza</b>
+      <small>8015 Huron St, Dexter, MI 48130. (734) 426-1900</small>
+    </div>
+  </div>
+</footer>
+
+<a class="mbar" href="https://ordering.bigholler.com/ClassicPizza/"><span>Order online</span><span>Pickup or delivery</span></a>
+<div class="toast" id="toast" role="status"></div>
+
+<dialog id="about" aria-labelledby="aboutTitle">
+  <div class="dlg-head"><h2 id="aboutTitle">A new site for Classic Pizza</h2></div>
+  <div class="dlg-body">
+    <p>I've been ordering from Classic for years and would love to help the website match the pizza. This is a working concept you can click through on your phone right now.</p>
+    <div class="price-pair">
+      <div><b>$500</b><span>Design, build, and launch, including the first year of hosting</span></div>
+      <div><b>$150</b><span>Per year after that for hosting and upkeep</span></div>
+    </div>
+    <p style="margin:0"><b>What's included</b></p>
+    <ul>
+      <li>Mobile-first design built around ordering and the menu</li>
+      <li>The full menu as real, searchable text instead of a photo of the paper menu</li>
+      <li>One-tap calling, directions, and live open or closed hours</li>
+      <li>Every order button goes to your current Big Holler online ordering, so nothing changes in the kitchen</li>
+      <li>Menu prices pulled from Big Holler, so the website and online ordering always match</li>
+      <li>The penguin, finally getting the spotlight he deserves</li>
+    </ul>
+    <p>This price is well below what a studio would charge. I'm offering it as a longtime customer who wants to see Classic do well.</p>
+    <p style="margin-bottom:18px">Kirk Vantine</p>
+    <form method="dialog"><button class="btn btn-red" style="width:100%">Back to the mockup</button></form>
+  </div>
+</dialog>
+
+<script>
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const money = n => '$' + n.toFixed(2);
+
+/* ---------- Scrollspy for tabs ---------- */
+function spy(){
+  const links = $$('#tabs a');
+  const targets = links.map(a => document.getElementById(a.dataset.t));
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      links.forEach(l => l.removeAttribute('aria-current'));
+      const a = links.find(l => l.dataset.t === en.target.id);
+      if (a){ a.setAttribute('aria-current','true'); a.scrollIntoView({block:'nearest', inline:'center', behavior:'smooth'}); }
+    });
+  }, {rootMargin:'-140px 0px -65% 0px'});
+  targets.forEach(t => t && io.observe(t));
+}
+
+$('#aboutBtn').onclick = () => $('#about').showModal();
+
+let tt;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),1600); }
+
+/* ---------- Hours ---------- */
+const DAYS = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+function hours(){
+  const now = new Date(), d = now.getDay(), h = now.getHours() + now.getMinutes()/60;
+  $('#hoursTable tbody').innerHTML = DAYS.map((n,i)=>`<tr class="${i===d?'today':''}"><td>${n}${i===d?' (today)':''}</td><td>11am to 9pm</td></tr>`).join('');
+  const open = h >= 11 && h < 21;
+  $('#openDot').classList.toggle('closed', !open);
+  $('#openText').textContent = open ? 'Open now until 9pm' : (h < 11 ? 'Opens today at 11am' : 'Closed now, opens tomorrow at 11am');
+}
+
+/* ---------- Penguin hello ---------- */
+$('#pengBtn').onclick = () => {
+  const p = $('#hopper'); p.classList.remove('hop'); void p.getBoundingClientRect(); p.classList.add('hop');
+  toast('Hi! Your pizza is waiting below');
+};
+
+spy(); hours();
+</script>
+</body>
+</html>
