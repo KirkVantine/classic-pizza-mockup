@@ -626,19 +626,39 @@ const money = n => '$' + n.toFixed(2);
 
 /* ---------- Scrollspy for tabs ---------- */
 function spy(){
+  const bar = $('#tabs');
   const links = $$('#tabs a');
   const targets = links.map(a => document.getElementById(a.dataset.t));
+  const smooth = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let jumping = false, jumpTimer;
+
+  function highlight(a){
+    links.forEach(l => l.removeAttribute('aria-current'));
+    a.setAttribute('aria-current','true');
+    // Move only the tab bar sideways; scrollIntoView would also scroll the page.
+    bar.scrollTo({left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior: smooth ? 'smooth' : 'auto'});
+  }
+
+  // Tabs scroll the page themselves, so nothing else can cancel the jump midway.
+  bar.addEventListener('click', e => {
+    const a = e.target.closest('a'); if (!a) return;
+    const el = document.getElementById(a.dataset.t); if (!el) return;
+    e.preventDefault();
+    jumping = true; clearTimeout(jumpTimer);
+    highlight(a);
+    const offset = parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 0;
+    window.scrollTo({top: el.getBoundingClientRect().top + window.scrollY - offset, behavior: smooth ? 'smooth' : 'auto'});
+    history.replaceState(null, '', '#' + a.dataset.t);
+    jumpTimer = setTimeout(() => { jumping = false; }, 2500);
+  });
+  window.addEventListener('scrollend', () => { clearTimeout(jumpTimer); jumping = false; });
+
   const io = new IntersectionObserver(entries => {
+    if (jumping) return;
     entries.forEach(en => {
       if (!en.isIntersecting) return;
-      links.forEach(l => l.removeAttribute('aria-current'));
       const a = links.find(l => l.dataset.t === en.target.id);
-      if (a){
-        a.setAttribute('aria-current','true');
-        // Scroll only the tab bar sideways. scrollIntoView would also scroll the page and cancel a tab jump in progress.
-        const bar = a.parentElement;
-        bar.scrollTo({left: a.offsetLeft - (bar.clientWidth - a.offsetWidth) / 2, behavior:'smooth'});
-      }
+      if (a) highlight(a);
     });
   }, {rootMargin:'-140px 0px -65% 0px'});
   targets.forEach(t => t && io.observe(t));
