@@ -30,10 +30,15 @@ const CRUSTS = ['The Works','Butter','Garlic butter','Cajun','Parmesan','Sesame 
 function renderSizes() {
   const cheese = lookup('Pizza/Cheese Pizza'), ny = lookup('Pizza/NY Style Cheese Pizza'), gf = lookup('Pizza/Gluten Free Pizza');
   let html = '';
-  if (cheese) html += Object.entries(cheese.prices).map(([k, v]) => `<div class="size"><span class="sz">${LABELS[k] || k}</span><span class="kind">Classic round, hand-tossed, pan, or thin</span><b>${money(v)}</b></div>`).join('');
-  if (ny) html += `<div class="size"><span class="sz">18"</span><span class="kind">New York style, 6 big slices</span><b>${money(ny.prices.Price)}</b></div>`;
-  if (gf) html += `<div class="size"><span class="sz">10"</span><span class="kind">Gluten-free cauliflower crust (contains egg)</span><b>${money(gf.prices.Price)}</b></div>`;
-  html += `<div class="size phone"><span class="sz">Chicago</span><span class="kind">Deep dish in 10", 12", or 14"</span><a href="tel:+17344261900">Call to order</a></div>`;
+  if (cheese) html += `<div class="size-group"><h4>Classic round</h4><p>Hand-tossed, thick &amp; chewy pan, or thin crust</p><div class="sizes">`
+    + Object.entries(cheese.prices).map(([k, v]) => `<div class="size"><span class="sz">${LABELS[k] || k}</span><b>${money(v)}</b></div>`).join('')
+    + `</div></div>`;
+  const style = (name, kind, end) => `<div class="size"><span class="name">${name}</span><span class="kind">${kind}</span>${end}</div>`;
+  html += `<div class="size-group"><h4>Other styles</h4><div class="styles">`
+    + (ny ? style('New York style', '18", 6 big slices', `<b>${money(ny.prices.Price)}</b>`) : '')
+    + (gf ? style('Gluten-free', '10" cauliflower crust (contains egg)', `<b>${money(gf.prices.Price)}</b>`) : '')
+    + style('Chicago deep dish', '10", 12", or 14"', `<a class="call-link" href="tel:+17344261900">Call to order</a>`)
+    + `</div></div>`;
   return html;
 }
 
